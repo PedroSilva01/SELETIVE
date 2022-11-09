@@ -17,6 +17,12 @@ def nova_empresa(request):
         tecnologias = request.POST.getlist('tecnologias')
         caracteristicas = request.POST.get('caracteristicas')
         logo = request.FILES.get('logo')
-        if (len(nome.strip()) == 0 or len(email.strip()) == 0 or len(cidade.strip()) == 0):
+        if (len(nome.strip()) == 0 or len(email.strip()) == 0 or len(cidade.strip()) == 0 or len(endereco.strip()) == 0 or len(caracteristicas.strip()) == 0 or (not logo)):
+            return redirect('/home/nova_empresa')
+
+        if logo.size > 100_000_000:
+            return redirect('/home/nova_empresa')
+
+        if nicho not in [i[0] for i in Empresa.choices_nicho_mercado]:
             return redirect('/home/nova_empresa')
         return HttpResponse("To aqui")
